@@ -27,7 +27,12 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('doctor', 'appointment_date', 'appointment_time')
+        constraints = [
+            models.UniqueConstraint(
+                fields=["doctor", "appointment_date", "appointment_time"],
+                name="unique_doctor_slot"
+            )
+    ]
 
     def __str__(self):
         return f"{self.doctor} - {self.appointment_date} {self.appointment_time}"

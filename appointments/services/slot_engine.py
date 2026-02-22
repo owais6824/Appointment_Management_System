@@ -1,32 +1,46 @@
 from datetime import datetime, timedelta
 from appointments.models import Appointment
 
+
 def generate_slots(doctor, date, slot_minutes=30):
     """
-    Generate available slots for a doctor ona given date
+    Generate available time slots for doctor on given date
     """
+
+    # -------- Safety Checks --------
+    if doctor is None:
+        raise ValueError("Doctor cannot be None")
+
     if doctor.available_from is None or doctor.available_to is None:
-        raise ValueError(f"Doctor {doctor} availability not set")
-    
+        raise ValueError("Doctor availability not configured")
+
+    if doctor.available_from >= doctor.available_to:
+        raise ValueError("Invalid availability window")
+
+    # -------- Build Time Range --------
     start = datetime.combine(date, doctor.available_from)
     end = datetime.combine(date, doctor.available_to)
 
-    #Existig bookings
-    booked = Appointment.objects.filter(
-        doctor=doctor,
-        appointment_date = date
-    ).values_list("appointment_time", flat=True)
+    # -------- Fetch Existing Bookings --------
+    booked = set(
+        Appointment.objects.filter(
+            doctor=doctor,
+            appointment_date=date
+        )
+        .exclude(status="CANCELED")
+        .values_list("appointment_time", flat=True)
+    )
 
+    # -------- Generate Slots --------
     slots = []
-
     current = start
 
     while current < end:
-        time_value = current.time()
+        time_val = current.time()
 
-        if time_value not in booked:
-            slots.append(time_value)
+        if time_val not in booked:
+            slots.append(time_val)
 
         current += timedelta(minutes=slot_minutes)
 
-    return slots
+    return sorted(slots)

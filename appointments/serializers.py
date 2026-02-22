@@ -30,12 +30,16 @@ class AvailableSlotsSerializer(serializers.Serializer):
 class AppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
-        fields = ['id', 'clinic', 'doctor', 'patient', 'appointment_date', 'appointment_time', 'status']
-        read_only_fields = ['status']
+        fields = "__all__"
 
     def validate(self, data):
-        slots = generate_slots(data['doctor'], data['appointment_date'])
-        if data['appointment_time'] not in slots:
-            raise serializers.ValidationError("Selected slot is not available.")
+        doctor = data["doctor"]
+        time = data["appointment_time"]
+        
+        if not (doctor.available_from <= time < doctor.available_to):
+            raise serializers.ValidationError(
+                "Appointment time outside doctor avaialbility."
+            )
+        
         return data
 
