@@ -69,3 +69,28 @@ class CanManageClinic(BasePermission):
                 User.CLINIC_ADMIN
             ]
         )
+    
+# ----------------------------------------
+# Object Level Permissions
+# ----------------------------------------
+
+class IsAppointmentOwnerPatient(BasePermission):
+    """
+    Patient can access only their own appointment
+    """
+    def has_object_permission(self, request, view, obj):
+        return (
+            request.user.role == User.PATIENT and
+            obj.patient.user == request.user
+        )
+
+
+class IsAppointmentOwnerDoctor(BasePermission):
+    """
+    Doctor can access only their own appointments
+    """
+    def has_object_permission(self, request, view, obj):
+        return (
+            request.user.role == User.DOCTOR and
+            obj.doctor.user == request.user
+        )
