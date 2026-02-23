@@ -1,0 +1,33 @@
+clinicflow/
+├── clinicflow/        # Project settings
+├── core/              # Shared logic
+├── clinics/           # Clinic management
+├── doctors/           # Doctors & schedules
+├── patients/          # Patients
+├── appointments/      # Appointment engine
+├── ai_agents/         # AI logic
+├── templates/         # UI
+├── static/
+└── manage.py
+---------------------------------------------------
+
+clinics        → clinic/hospital management
+doctors        → doctors & schedules
+patients       → patient records
+appointments   → booking + status
+accounts       → auth, roles
+ai_agents      → future AI (Phase-2)
+---------------------------------------------------
+
+Core Business Objects (MVP)
+Entity	        Purpose
+User	        Login + roles
+Clinic	        The customer (hospital / clinic)
+Doctor	        Works inside a clinic
+Patient	        Books appointments
+Appointment 	Generates revenue
+
+
+
+---------------------------------------------------
+
