@@ -3,6 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView
+from accounts.permissions import IsPatient
+from .pagination import StandardResultsSetPagination
 
 from .serializers import AvailableSlotsSerializer, AppointmentSerializer
 from .models import Appointment
@@ -155,3 +158,24 @@ class RescheduleAPIView(APIView):
         appt.save()
 
         return Response({"status": "Rescheduled"})
+    
+
+class PatientAppointmentHistoryAPIView(ListAPIView):
+
+    serializer_class = AppointmentSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsPatient
+    ]
+    pagination_class = StandardResultsSetPagination
+
+    def get_queryset(self):
+        """
+        Return only appointments belonging to logged-in patient.
+        Ordered by newest first.
+        """
+        return (
+            Appointment.objects
+            .filter(patient__user=self.request.user)
+            .order_by("-appointment_date", "-appointment_time")
+        )
