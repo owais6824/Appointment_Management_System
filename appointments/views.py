@@ -6,19 +6,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
 from .pagination import StandardResultsSetPagination
 from accounts.permissions import IsPatient
-
-
-from .serializers import AvailableSlotsSerializer, AppointmentSerializer
+from doctors.models import Doctor
+from .services.calender_service import get_doctor_monthly_calender
+from .serializers import AvailableSlotsSerializer, AppointmentSerializer, DoctorCalendarDaySerializer
 from .models import Appointment
 from appointments.services.booking_service import create_booking
-
 from accounts.permissions import (
     CanBookAppointment,
     IsDoctor,
     IsClinicAdmin,
-    IsSuperAdmin
+    IsSuperAdmin, 
+    IsReceptionist
 )
 from accounts.models import User
+from .permissions import IsDoctorOrAdmin
 
 
 # -----------------------------------------
@@ -179,3 +180,68 @@ class PatientAppointmentHistoryAPIView(ListAPIView):
             .filter(patient__user=self.request.user)
             .order_by("-appointment_date", "-appointment_time")
         )
+    
+
+# -----------------------------------------
+# Doctor Availability
+# -----------------------------------------
+
+class DoctorAvailabilityCalendarAPIView(APIView):
+    """
+    Returns a doctor's availability calendar for a given month.
+    """
+    
+    permission_classes = [IsAuthenticated, IsDoctorOrAdmin]
+
+    def get(self, request):
+        # Required query parameters
+        doctor_id = request.query_params.get("doctor_id")
+        year = request.query_params.get("year")
+        month = request.query_params.get("month")
+
+        if not doctor_id or not year or not month:
+            return Response(
+                {"detail": "doctor_id, year and month are required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Validate year/month integers
+        try:
+            year = int(year)
+            month = int(month)
+        except ValueError:
+            return Response(
+                {"detail": "Invalid year or month format."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Fetch the doctor safely
+        doctor = get_object_or_404(Doctor, pk=int(doctor_id))
+
+        # Permissions
+        user_role = request.user.role
+        if user_role == User.DOCTOR:
+            if doctor.user != request.user:
+                return Response(
+                    {"detail": "Doctors can only view their own calendar."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        elif user_role not in [
+            User.CLINIC_ADMIN,
+            User.RECEPTIONIST,
+            User.SUPER_ADMIN
+        ]:
+            return Response(
+                {"detail": "Permission denied."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        # Generate calendar data
+        calender_data = get_doctor_monthly_calender(
+            doctor_id=doctor.id,
+            year=year,
+            month=month
+        )
+
+        serializer = DoctorCalendarDaySerializer(calender_data, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
