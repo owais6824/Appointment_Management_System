@@ -31,3 +31,5 @@ Appointment 	Generates revenue
 
 ---------------------------------------------------
 
+Admin Username: Admin
+Admin Password: Vassi@123

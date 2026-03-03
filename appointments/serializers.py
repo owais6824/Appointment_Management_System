@@ -43,3 +43,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
         
         return data
 
+# Adding class DoctorCalendarDaySerializer
+
+class DoctorCalendarDaySerializer(serializers.Serializer):
+    date = serializers.DateField()
+    total_slots = serializers.IntegerField()
+    booked_slots = serializers.IntegerField()
+    available_slots = serializers.IntegerField()
