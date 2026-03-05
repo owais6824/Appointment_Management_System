@@ -6,7 +6,7 @@ from .models import Doctor
 class DoctorAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "get_name",
+        "name",
         "clinic",
         "specialization",
         "available_from",
