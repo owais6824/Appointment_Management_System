@@ -20,6 +20,7 @@ from accounts.permissions import (
 )
 from accounts.models import User
 from .permissions import IsDoctorOrAdmin
+from .services.dashboard_service import get_doctor_dashboard_data
 
 
 # -----------------------------------------
@@ -164,10 +165,7 @@ class RescheduleAPIView(APIView):
 class PatientAppointmentHistoryAPIView(ListAPIView):
 
     serializer_class = AppointmentSerializer
-    permission_classes = [
-        IsAuthenticated,
-        IsPatient
-    ]
+    permission_classes = [IsAuthenticated, IsPatient]
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
@@ -245,3 +243,15 @@ class DoctorAvailabilityCalendarAPIView(APIView):
 
         serializer = DoctorCalendarDaySerializer(calender_data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# -----------------------------------------
+# Dashboard Class
+# -----------------------------------------
+
+class DoctorDashboardAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsDoctor]
+
+    def get(self, request):
+        data = get_doctor_dashboard_data(request.user)
+        return Response(data)

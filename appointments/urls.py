@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import AvailabileSlotsAPIView, BookAppointmentAPIView, DoctorAvailabilityCalendarAPIView
-from .views import CancelAppointmentAPIView, PatientAppointmentHistoryAPIView
+from .views import CancelAppointmentAPIView, PatientAppointmentHistoryAPIView, DoctorDashboardAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('available-slots/', AvailabileSlotsAPIView.as_view(), name='available-slots'),
     path('book/', BookAppointmentAPIView.as_view(), name='book-appointment'),
     path('cancel/<int:pk>/', CancelAppointmentAPIView.as_view()),
-    path("patient/history/", PatientAppointmentHistoryAPIView.as_view(), name="patient-history"),
+    path("patient/history/", PatientAppointmentHistoryAPIView.as_view(), name="patient-appointment-history"),
     path("doctor/calendar/", DoctorAvailabilityCalendarAPIView.as_view(), name="doctor-availability_calendar"),
+    path('doctor/dashboard/', DoctorDashboardAPIView.as_view()),
 ]
