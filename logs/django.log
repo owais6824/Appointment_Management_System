@@ -1,0 +1,42 @@
+INFO 2026-03-07 18:03:58,936 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:25,409 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:25,943 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:30,357 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:31,081 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:35,601 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:36,118 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:39,409 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:39,880 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:42,392 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:42,850 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:45,347 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:46,049 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:05:50,577 autoreload /Users/app/Desktop/Appointment Management System/appointments/views.py changed, reloading.
+INFO 2026-03-07 18:05:51,088 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:09:24,048 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:09:24,582 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:09:34,358 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:12:54,910 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:13:01,816 basehttp "GET /api/docs/ HTTP/1.1" 200 4659
+INFO 2026-03-07 18:13:02,157 basehttp "GET /api/schema/ HTTP/1.1" 200 22473
+INFO 2026-03-07 18:26:49,552 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:26:50,039 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:26:52,450 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:26:52,859 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:26:56,208 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:26:56,583 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:26:58,925 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:26:59,297 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:27:02,606 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:27:03,057 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:27:09,509 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:27:09,962 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:27:11,350 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:27:11,947 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:27:20,525 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:27:21,019 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:27:22,414 autoreload /Users/app/Desktop/Appointment Management System/clinicflow/settings.py changed, reloading.
+INFO 2026-03-07 18:29:05,043 autoreload Watching for file changes with StatReloader
+INFO 2026-03-07 18:29:12,445 basehttp "GET / HTTP/1.1" 200 55
+INFO 2026-03-07 18:29:20,612 basehttp "GET /admin/ HTTP/1.1" 200 13982
+INFO 2026-03-07 18:29:20,657 basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0

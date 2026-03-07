@@ -21,6 +21,9 @@ from accounts.permissions import (
 from accounts.models import User
 from .permissions import IsDoctorOrAdmin
 from .services.dashboard_service import get_doctor_dashboard_data
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # -----------------------------------------
