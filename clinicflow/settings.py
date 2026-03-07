@@ -16,7 +16,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -52,6 +51,8 @@ INSTALLED_APPS = [
     'patients',
     'ai_agents',
     'accounts',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 ]
 
 MIDDLEWARE = [
@@ -144,4 +145,77 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "20/min",
+        "user": "100/min",
+        "login": "5/min",
+    },
+
+    "DEFAULT_PAGINATION_CLASS": "appointments.pagination.StandardResultsSetPagination",
+    "PAGE_SIZE": 10,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE" : "Appointment Management API",
+    "DESCRIPTION" : "API documentation for appointment management system",
+    "VERSION" : "1.0.0",
+    "SWAGGER_UI_DIST" : "SIDECAR"
+}
+
+LOGGING = {
+
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {message}",
+            "style": "{",
+        }
+
+    },
+
+    "handlers": {
+
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/django.log"),
+            "formatter": "verbose",
+        },
+
+        "error_file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/errors.log"),
+            "formatter": "verbose",
+        },
+
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+
+    },
+
+    "root": {
+        "handlers": ["console", "file"],
+        "level": "INFO",
+    },
+
+    "loggers": {
+
+        "django": {
+            "handlers": ["console", "file", "error_file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+
+    },
 }
