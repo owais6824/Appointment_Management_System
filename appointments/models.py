@@ -5,11 +5,13 @@ from patients.models import Patient
 
 class Appointment(models.Model):
     STATUS_CHOICES = (
-        ('PENDING', 'Pending'),
-        ('CONFIRMED', 'Confirmed'),
-        ('COMPLETED', 'Completed'),
-        ('CANCELED', 'Canceled'),
-    )
+    ('PENDING', 'Pending'),
+    ('CONFIRMED', 'Confirmed'),
+    ('COMPLETED', 'Completed'),
+    ('CANCELED', 'Canceled'),
+    ('NO_SHOW', 'No Show'),
+    ('RESCHEDULED', 'Rescheduled'),
+)
 
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
