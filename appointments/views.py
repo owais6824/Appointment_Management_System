@@ -22,6 +22,9 @@ from accounts.models import User
 from .permissions import IsDoctorOrAdmin
 from .services.dashboard_service import get_doctor_dashboard_data
 import logging
+from appointments.services.lifecycle_service import cancel_appointment
+from rest_framework.exceptions import ValidationError
+from appointments.services.lifecycle_service import reschedule_appointment
 
 logger = logging.getLogger(__name__)
 
@@ -105,10 +108,10 @@ class CancelAppointmentAPIView(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        appt.status = "CANCELED"
-        appt.save()
-
-        return Response({"status": "Canceled"})
+        try:
+            cancel_appointment(appt)
+        except ValidationError as e:
+            return Response({"error": str(e)}, status=400)
 
 
 # -----------------------------------------
@@ -157,11 +160,11 @@ class RescheduleAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        appt.appointment_time = new_time
-        appt.appointment_date = new_date
-
-        appt.full_clean()
-        appt.save()
+        try:
+            reschedule_appointment(appt, new_date, new_time)
+        except ValidationError as e:
+            return Response({"error" : str(e)}, status=400)
+        
 
         return Response({"status": "Rescheduled"})
     
@@ -258,3 +261,24 @@ class DoctorDashboardAPIView(APIView):
     def get(self, request):
         data = get_doctor_dashboard_data(request.user)
         return Response(data)
+    
+
+class ConfirmAppointmentAPIView(APIView):
+
+    permission_classes = [IsAuthenticated, IsDoctor]
+
+    def patch(self, request, pk):
+        appt = get_object_or_404(Appointment, pk=pk)
+
+        if appt.doctor.user != request.user:
+            return Response({"detail": "Not allowed"}, status=403)
+
+        from appointments.services.lifecycle_service import confirm_appointment
+        from rest_framework.exceptions import ValidationError
+
+        try:
+            confirm_appointment(appt)
+        except ValidationError as e:
+            return Response({"error": str(e)}, status=400)
+
+        return Response({"status": "Confirmed"})
